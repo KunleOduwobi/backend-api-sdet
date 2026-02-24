@@ -1,22 +1,14 @@
-from app.api_client import get_user
+from app.validators import validate_status, validate_user_schema
 
+def test_get_user_success(api_client):
+    response = api_client.get_user(2)
 
-def test_get_user_success():
-    response = get_user(2)
+    validate_status(response, 200)
+    validate_user_schema(response.json())
 
-    assert response.status_code == 200
-
-    body = response.json()
-
-    # assert "data" in body
-    # assert body["data"]["id"] == 2
-    assert body["id"] == 2
-    assert "@" in body["email"]
-
-def test_get_user_not_found():
-    response = get_user(9999, test_type="negative")
-
-    assert response.status_code == 404
+def test_get_user_not_found(api_client):
+    response = api_client.get_user(9999, test_type="negative")
+    validate_status(response, 404)
 
 # def test_get_user_not_found():
 #     try:
