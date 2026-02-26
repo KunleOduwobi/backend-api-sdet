@@ -1,3 +1,6 @@
+from jsonschema import validate
+
+
 def validate_status(response, expected_status):
     if response.status_code != expected_status:
         raise AssertionError(
@@ -18,3 +21,6 @@ def validate_user_schema(body):
     # assert @ in email
     if "@" not in body["data"]["email"]:
         raise AssertionError("Invalid email format")
+
+def validate_schema(body, schema):
+    validate(instance=body, schema=schema)
