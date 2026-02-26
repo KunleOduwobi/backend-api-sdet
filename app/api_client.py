@@ -1,3 +1,4 @@
+from time import time
 from urllib import response
 
 import requests
@@ -12,10 +13,18 @@ class APIClient:
         # print the initialized base URL for debugging
         print(f"APIClient initialized with base URL: {self.base_url}")
         self.headers = {"x-api-key": api_key}
+        self.token = None
 
-    def get(self, endpoint):
+    def get(self, endpoint, retries=2):
         url = f"{self.base_url}{endpoint}"
-        return requests.get(url, headers=self.headers, timeout=5)
+
+        for attempt in range(retries + 1):
+            response = requests.get(url, headers=self.headers, timeout=5)
+            if response.status_code < 500:
+                return response
+            time.sleep(1)
+
+        return response
 
     def post(self, endpoint, payload):
         url = f"{self.base_url}{endpoint}"
@@ -37,3 +46,17 @@ class APIClient:
         if response.status_code != 200 and test_type != "negative":
             raise ValueError(f"Failed to fetch user data: {response.status_code}")
         return response
+    
+    def login(self, email, password):
+        payload = {
+            "email": email,
+            "password": password
+        }
+        response = self.post("/api/login", payload)
+        if response.status_code == 200:
+            self.token = response.json().get("token")
+            self.headers["Authorization"] = f"Bearer {self.token}"
+
+        return response
+
+    
