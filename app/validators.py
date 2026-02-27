@@ -24,3 +24,7 @@ def validate_user_schema(body):
 
 def validate_schema(body, schema):
     validate(instance=body, schema=schema)
+
+# same as validate_schema but with a custom error message
+def validate_contract(response_json, contract):
+    validate(instance=response_json, schema=contract)
