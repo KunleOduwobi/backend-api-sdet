@@ -4,6 +4,7 @@ from app.payloads import create_user_payload
 from app.validators import validate_status, validate_user_schema, validate_schema
 from app.schemas import CREATE_USER_SCHEMA
 
+@pytest.mark.smoke
 def test_get_user_success(api_client):
     response = api_client.get_user(2)
     print(f"Response JSON: {response.json()}")  # Debugging statement
