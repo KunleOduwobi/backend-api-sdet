@@ -2,7 +2,10 @@ import time
 import statistics
 from concurrent.futures import ThreadPoolExecutor
 
+import pytest
 
+
+@pytest.mark.smoke
 def test_get_user_performance(api_client):
     response_times = []
     iterations = 10

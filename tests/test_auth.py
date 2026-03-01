@@ -1,8 +1,11 @@
 
 
+import pytest
+
 from app.validators import validate_status
 
 
+@pytest.mark.smoke
 def test_login_success(api_client):
     login_response = api_client.login(
         email="eve.holt@reqres.in",
