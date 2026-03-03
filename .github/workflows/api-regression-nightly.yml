@@ -1,46 +1,39 @@
-name: API Smoke Tests
+name: API Regression Nightly
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+#   schedule:
+#     - cron: "0 2 * * *"   # 02:00 UTC daily
+  workflow_dispatch: {}
 
 jobs:
-  api-tests:
+  regression:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install -r requirements.txt
 
-      - name: Run smoke tests + reports
+      - name: Run regression tests + reports
         env:
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
         run: |
           mkdir -p reports
-          python -m pytest -m smoke  \
-            --junitxml=reports/junit-smoke.xml \
-            --html=reports/smoke-report.html \
+          python -m pytest -m "not performance" \
+            --junitxml=reports/junit-regression.xml \
+            --html=reports/regression-report.html \
             --self-contained-html
-
 
       - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: smoke-reports
+          name: regression-reports
           path: reports/
-
-
-
