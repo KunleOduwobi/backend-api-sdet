@@ -1,0 +1,12 @@
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+GET /api/users/2 - Status Code: 200
+Average response time: 0.160s
+P95 response time: 0.202s
