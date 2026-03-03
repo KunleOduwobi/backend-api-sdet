@@ -29,12 +29,22 @@ jobs:
           REQRES_API_KEY: ${{ secrets.REQRES_API_KEY }}
         run: |
           mkdir -p reports
-          python -m pytest -m smoke --junitxml=reports/junit-smoke.xml
+          python -m pytest -m smoke  \
+            --junitxml=reports/junit-smoke.xml \
+            --html=reports/smoke-report.html \
+            --self-contained-html
+
 
       - name: Upload JUnit Test Report
         uses: actions/upload-artifact@v4
         with:
             name: junit-smoke-report
             path: reports/junit-smoke.xml
+
+      - name: Upload HTML Test Report
+        uses: actions/upload-artifact@v4
+        with:
+            name: smoke-html-report
+            path: reports/smoke-report.html
 
 
