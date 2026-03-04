@@ -1,0 +1,7 @@
+services:
+  api-tests:
+    build: .
+    environment:
+      - REQRES_API_KEY=${REQRES_API_KEY}
+    volumes:
+      - ./reports:/app/reports
